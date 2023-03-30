@@ -1,7 +1,7 @@
 # PoPtimization
 A simple mod that allows you to change the draw distance and remove all decoration from the island
 
-it is configured in BepInEx>config>PoPtimization.cfg and is applied ingame by pressing the U
+it is configured in BepInEx>config>PoPtimization.cfg and is applied ingame by pressing U
 
 This plugin uses BepInEx, to install it:
 
