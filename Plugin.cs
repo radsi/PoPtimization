@@ -9,13 +9,6 @@ namespace PoPtimization
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     public class Plugin : BaseUnityPlugin
     {
-        /*public float timer, refresh, avgFramerate;
-
-        string display = "{0} FPS";
-        string FPSText;
-
-        private GUIStyle guiStyle;*/
-
         private ConfigEntry<int> drawDistance;
         private ConfigEntry<bool> removeDeco;
 
@@ -25,25 +18,12 @@ namespace PoPtimization
         {
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
 
-            //Application.targetFrameRate = 2000;
-            //QualitySettings.vSyncCount = 0;
-
-            /*guiStyle = new GUIStyle();
-            guiStyle.fontSize = 24;
-            guiStyle.normal.textColor = Color.white;
-            guiStyle.alignment = TextAnchor.MiddleCenter;*/
-
             drawDistance = Config.Bind("General", "DrawDistance", 100, "The distance to be drawn relative to the camera view.");
             removeDeco = Config.Bind("General", "RemoveDecoration", false, "Remove all plants, trees, stones...");
         }
 
         private void Update()
         {
-            /*float timelapse = Time.smoothDeltaTime;
-            timer = timer <= 0 ? refresh : timer -= timelapse;
-            if (timer <= 0) avgFramerate = (int)(1f / timelapse);
-            FPSText = string.Format(display + "/" + Application.targetFrameRate, avgFramerate.ToString());*/
-
             if (player == null)
             {
                 player = GameObject.Find("FPSController/FirstPersonCharacter");
@@ -72,13 +52,5 @@ namespace PoPtimization
                 }
             }
         }
-
-        /*void OnGUI()
-        {
-            Vector2 textSize = guiStyle.CalcSize(new GUIContent(FPSText));
-            Rect rect = new Rect((Screen.width - textSize.x) / 2, (Screen.height - textSize.y) / 2, textSize.x, textSize.y);
-
-            GUI.Label(rect, FPSText, guiStyle);
-        }*/
     }
 }
