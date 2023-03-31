@@ -1,5 +1,6 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace PoPtimization
     public class Plugin : BaseUnityPlugin
     {
         private ConfigEntry<int> drawDistance;
-        private ConfigEntry<bool> removeDeco;
+        private ConfigEntry<string[]> removeDeco;
 
         public GameObject player;
 
@@ -19,7 +20,7 @@ namespace PoPtimization
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
 
             drawDistance = Config.Bind("General", "DrawDistance", 100, "The distance to be drawn relative to the camera view.");
-            removeDeco = Config.Bind("General", "RemoveDecoration", false, "Remove all plants, trees, stones...");
+            removeDeco = Config.Bind("General", "RemoveDecoration", Array.Empty<string>(), "Valid entries: \"Tree\", \"Bush\", \"Plant\" and \"Rock\"");
         }
 
         private void Update()
@@ -33,16 +34,22 @@ namespace PoPtimization
                 Camera camera = player.GetComponent<Camera>();
                 camera.farClipPlane = drawDistance.Value;
 
-                if (removeDeco.Value)
+                if (removeDeco.Value.Length > 0)
                 {
-                    GameObject[] tagObjects = GameObject.FindGameObjectsWithTag("Tree");
-                    tagObjects = tagObjects.Concat(GameObject.FindGameObjectsWithTag("Plant")).ToArray();
-                    tagObjects = tagObjects.Concat(GameObject.FindGameObjectsWithTag("Bush")).ToArray();
+                    GameObject[] objects = null;
 
-                    GameObject[] nameObjects = FindObjectsOfType<GameObject>()
-                        .Where(obj => obj.name.Contains("Rock")).ToArray();
-
-                    GameObject[] objects = tagObjects.Concat(nameObjects).ToArray();
+                    for(int i = 0; i < removeDeco.Value.Length; i++)
+                    {
+                        if(removeDeco.Value[i] == "Rock")
+                        {
+                            GameObject[] nameObjects = FindObjectsOfType<GameObject>().Where(obj => obj.name.Contains("Rock")).ToArray();
+                            objects = objects.Concat(nameObjects).ToArray();
+                        }
+                        else
+                        {
+                            objects = objects.Concat(GameObject.FindGameObjectsWithTag(removeDeco.Value[i])).ToArray();
+                        }
+                    } 
 
                     for(int i = 0; i < objects.Length; i++)
                     {
