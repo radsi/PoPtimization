@@ -18,7 +18,7 @@ namespace PoPtimization
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
 
             drawDistance = Config.Bind("General", "DrawDistance", 100, "The distance to be drawn relative to the camera view.");
-            removeDeco = Config.Bind("General", "RemoveDecoration", "", "Valid entries (separate by spaces): \"Tree\", \"Bush\", \"Plant\" and \"Rock\"");
+            removeDeco = Config.Bind("General", "RemoveDecoration", "", "Valid entries (separate by spaces): Tree, Bush, Plant and Rock");
         }
 
         private void Update()
