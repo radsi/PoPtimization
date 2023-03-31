@@ -1,5 +1,5 @@
 # PoPtimization
-A simple mod that allows you to change the draw distance and remove all decoration from the island
+A simple Pineapple on Pizza mod that allows you to change the draw distance and remove all decoration from the island
 
 it is configured in BepInEx>config>PoPtimization.cfg and is applied ingame by pressing U
 
