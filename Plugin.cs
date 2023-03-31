@@ -1,7 +1,5 @@
 using BepInEx;
 using BepInEx.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -37,11 +35,10 @@ namespace PoPtimization
                 if (removeDeco.Value.Length >= 4)
                 {
                     string[] items = removeDeco.Value.Split(' ');
-                    GameObject[] objects = null;
+                    GameObject[] objects = {};
 
                     for(int i = 0; i < items.Length; i++)
                     {
-                        items[i] = items[i].Replace("\"", "");
                         if(items[i] == "Rock")
                         {
                             GameObject[] nameObjects = FindObjectsOfType<GameObject>().Where(obj => obj.name.Contains("Rock")).ToArray();
@@ -55,7 +52,6 @@ namespace PoPtimization
 
                     for(int i = 0; i < objects.Length; i++)
                     {
-                        Debug.Log(objects[i].name);
                         objects[i].SetActive(false);
                     }
                 }
