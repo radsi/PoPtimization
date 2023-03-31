@@ -41,7 +41,6 @@ namespace PoPtimization
 
                     for(int i = 0; i < items.Length; i++)
                     {
-                        items[i] = items[i].Trim();
                         if(items[i] == "Rock")
                         {
                             GameObject[] nameObjects = FindObjectsOfType<GameObject>().Where(obj => obj.name.Contains("Rock")).ToArray();
