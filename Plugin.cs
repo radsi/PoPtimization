@@ -11,7 +11,7 @@ namespace PoPtimization
     public class Plugin : BaseUnityPlugin
     {
         private ConfigEntry<int> drawDistance;
-        private ConfigEntry<string[]> removeDeco;
+        private ConfigEntry<string> removeDeco;
 
         public GameObject player;
 
@@ -20,7 +20,7 @@ namespace PoPtimization
             Logger.LogInfo($"Plugin {PluginInfo.PLUGIN_GUID} is loaded!");
 
             drawDistance = Config.Bind("General", "DrawDistance", 100, "The distance to be drawn relative to the camera view.");
-            removeDeco = Config.Bind("General", "RemoveDecoration", Array.Empty<string>(), "Valid entries: \"Tree\", \"Bush\", \"Plant\" and \"Rock\"");
+            removeDeco = Config.Bind("General", "RemoveDecoration", "", "Valid entries (separate by spaces): \"Tree\", \"Bush\", \"Plant\" and \"Rock\"");
         }
 
         private void Update()
@@ -34,20 +34,22 @@ namespace PoPtimization
                 Camera camera = player.GetComponent<Camera>();
                 camera.farClipPlane = drawDistance.Value;
 
-                if (removeDeco.Value.Length > 0)
+                if (removeDeco.Value.Length >= 4)
                 {
+                    string[] items = removeDeco.Value.Split(' ');
                     GameObject[] objects = null;
 
-                    for(int i = 0; i < removeDeco.Value.Length; i++)
+                    for(int i = 0; i < items.Length; i++)
                     {
-                        if(removeDeco.Value[i] == "Rock")
+                        items[i] = items[i].Trim();
+                        if(items[i] == "Rock")
                         {
                             GameObject[] nameObjects = FindObjectsOfType<GameObject>().Where(obj => obj.name.Contains("Rock")).ToArray();
                             objects = objects.Concat(nameObjects).ToArray();
                         }
                         else
                         {
-                            objects = objects.Concat(GameObject.FindGameObjectsWithTag(removeDeco.Value[i])).ToArray();
+                            objects = objects.Concat(GameObject.FindGameObjectsWithTag(items[i])).ToArray();
                         }
                     } 
 
